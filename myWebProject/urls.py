@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from show_time.views import current_datetime
+from article.views import article_list
 import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^time/$', current_datetime),
+    url(r'^index/(.+)/$', article_list),
+    url(r'^index/$', article_list),
     url(r'^static/.*$', 'django.views.static.serve', {'document_root': settings.STATIC_PATH}),
 ]
