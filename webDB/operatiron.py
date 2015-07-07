@@ -99,5 +99,14 @@ class dbOperation():
         except:
             return 0
 
+    def getNumByIndex(self, table, index, value):
+        sql = "SELECT COUNT(*) FROM " + table + " WHERE " + index + " = '" + value + "'"
+        print sql
+        try:
+            ret = self.find(sql)
+            return int(ret[0][0])
+        except:
+            return 0
+
 
 

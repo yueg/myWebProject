@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from article.views import article_list
+from article.views import article_list_view
+from article.views import article_info_view
 import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^index/(.+)/$', article_list),
-    url(r'^index/$', article_list),
+    url(r'^articles/(?P<category>.*)/(?P<page>.*)/$', article_list_view),
+    url(r'^articles/(?P<category>.*)/(?P<page>.*)$', article_list_view),
+    url(r'^articles/(?P<category>.*)/$', article_list_view),
+    url(r'^articles/(?P<category>.*)$', article_list_view),
+    url(r'^article/(?P<id>.*)/$', article_info_view),
+    url(r'^article/(?P<id>.*)$', article_info_view),
     url(r'^static/.*$', 'django.views.static.serve', {'document_root': settings.STATIC_PATH}),
 ]

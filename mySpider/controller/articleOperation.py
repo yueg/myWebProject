@@ -12,10 +12,10 @@ class articleOper():
         self.conn = dbConn.mysqlConn(dbName).conn
         self.db = dbOperation.dbOperation(self.conn)
 
-    def saveArticleToDB(self, title = "", pos1 = "", pos2 = "", pos3 = "", content = "", article_time = "", url = ""):
+    def saveArticleToDB(self, title = "", pos1 = "", pos2 = "", pos3 = "", content = "", article_time = "", url = "", article_type = '0'):
         if self.isArticleExists(title):
             return False
-        indexList = ['title', 'pos1', 'pos2', 'pos3', 'content', 'article_time', 'update_time', 'url']
+        indexList = ['title', 'pos1', 'pos2', 'pos3', 'content', 'article_time', 'update_time', 'url', 'article_type']
         valueList = []
         valueList.append(title)
         valueList.append(pos1)
@@ -25,6 +25,7 @@ class articleOper():
         valueList.append(article_time)
         valueList.append(time.strftime('%Y-%m-%d %X', time.localtime()))
         valueList.append(url)
+        valueList.append(article_type)
         try:
             self.db.insertList(table, indexList, valueList)
             return True

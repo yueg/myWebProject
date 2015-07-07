@@ -1,4 +1,4 @@
-# _*_ coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 __author__ = 'yueg'
 
 import re
@@ -94,15 +94,28 @@ class TownSpider(scrapy.Spider):
                 pos3 = ''
             elif len(pos_list) >= 3:
                 pos1, pos2, pos3 = pos_list
+            if pos1 == '政策发布':
+                article_type = 1
+            elif pos1 == '公示公告':
+                article_type = 2
+            elif pos1 == '领导动态':
+                article_type = 3
+            elif pos1 == '行业动态':
+                article_type = 4
+            elif pos1 == '地方动态':
+                article_type = 5
+            else:
+                article_type = 0
             if title:
                 title = title.encode('utf-8')
             if article_content:
                 article_content = article_content.encode('utf-8')
             if url_time:
                 url_time = url_time.encode('utf-8')
+                url_time = url_time[0:4] + '-' + url_time[4:6] + '-' + url_time[6:8] + ' 00:00:00'
             # print article_content
             try:
-                self.artiOper.saveArticleToDB(title=title, pos1 = pos1, pos2=pos2, pos3=pos3, content=article_content, article_time=url_time, url = url)
+                self.artiOper.saveArticleToDB(title=title, pos1 = pos1, pos2=pos2, pos3=pos3, content=article_content, article_time=url_time, url = url, article_type = str(article_type))
             except:
                 print title, pos1, pos2, pos3, article_content, url_time, url
 

@@ -27,7 +27,7 @@ class article_info():
         title_temp = self.title.split('-')
         self.title = title_temp[-1].strip()
 
-        self.article_time = self.article_time[0:4] + '-' + self.article_time[4:6] + '-' + self.article_time[6:8]
+        self.article_time = self.article_time[0:10]
 
 class article_head():
     def __init__(self, article):
@@ -36,5 +36,6 @@ class article_head():
         self.url = article_c.url
         self.article_time = article_c.article_time
         self.pos = article_c.pos
+        self.id = article_c.id
 
 
