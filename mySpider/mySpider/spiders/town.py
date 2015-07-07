@@ -18,7 +18,7 @@ class TownSpider(scrapy.Spider):
         "http://www.mohurd.gov.cn/cxgh/zcfb/index.html",
         "http://www.mohurd.gov.cn/cxgh/hydt/index.html",
         "http://www.mohurd.gov.cn/cxgh/cxghdfxx/index.html",
-        # "http://www.mohurd.gov.cn/wjfb/200611/t20061101_156871.html"
+        # "http://www.mohurd.gov.cn/wjfb/200903/t20090313_187178.html"
     ]
 
     def parse(self, response):
@@ -76,11 +76,11 @@ class TownSpider(scrapy.Spider):
                                 elif small_temp.name == 'style':
                                     continue
                                 else:
-                                    article_content += small_temp.string
+                                    article_content += small_temp.string.strip() + '\n'
                             continue
                         else:
                             continue
-                    article_content += temp.string
+                    article_content += temp.string.strip() + '\n'
             # print article_content
 
             for i in range(len(pos_list)):

@@ -109,44 +109,18 @@
             </div>
           </div>
 
-          <h2 class="sub-header">Section title</h2>
+          <h3 class="sub-header" align="center">{{ title }}</h3>
           <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th width="40%">标题</th>
-                  <th>类别</th>
-                  <th>栏目</th>
-                  <th>时间</th>
-                  <th>原文链接</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for article in articles %}
-                <tr>
-                    <td><a href="">{{ article.title }}</a></td>
-                    <td>城镇规划</td>
-                    <td>{{ article.pos }}</td>
-                    <td>{{ article.article_time }}</td>
-                    <td>
-                        <a href="{{ article.url }}">查看原文</a>
-                    </td>
-                </tr>
-              {%  endfor %}
-              </tbody>
-            </table>
+              {% for c in content %}
+                <p>
+                    {{ c }}
+                </p>
+              {% endfor %}
           </div>
                 <div class="view" align="center">
-                    <ul class="pagination">
-                        <li><span>第{{ page }}页</span></li>
-                        <li><a href="/articles/{{ category }}">首页</a></li>
-                        <li><a href="/articles/{{ category }}/{{ previous_page }}">«</a></li>
-                        {% for p in pages %}
-                            <li><a href="/articles/{{ category }}/{{ p }}">{{ p }}</a></li>
-                        {% endfor %}
-                        <li><a href="/articles/{{ category }}/{{ next_page }}">»</a></li>
-                        <li><a href="/articles/{{ category }}/{{ page_total }}">尾页</a></li>
-                        <li><span>共{{ page_total }}页</span></li>
+                    <ul class="pager">
+                        <li><a href="/article/{{ previous_id }}">Previous</a></li>
+                        <li><a href="/article/{{ next_id }}">Next</a></li>
                     </ul>
                 </div>
         </div>

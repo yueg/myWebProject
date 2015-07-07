@@ -42,14 +42,14 @@ class articleModel():
             pass
         return ret
 
-    def maxArticleId(self):
+    def getMaxArticleId(self):
         sql = "SELECT MAX(id) FROM " + self.table
         try:
             return self.db.find(sql)[0][0]
         except:
             return 0
 
-    def maxArticleId(self):
+    def getMinArticleId(self):
         sql = "SELECT MIN(id) FROM " + self.table
         try:
             return self.db.find(sql)[0][0]

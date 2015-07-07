@@ -98,12 +98,53 @@ def article_info_view(request, id):
     article_instance = articleModel()
     article_temp = article_instance.getArticleInfoFromId(id)
     article = article_info(article_temp)
-    print article
+    max_id = article_instance.getMaxArticleId()
+    min_id = article_instance.getMinArticleId()
+    if int(id) == max_id:
+        next_id = id
+    else:
+        next_id = str(int(id) + 1)
+    if int(id) == min_id:
+        previous_id = id
+    else:
+        previous_id = str(int(id) - 1)
 
-    title = article_info()
+    article_type = int(article.article_type)
+
+    if article_type == 1:
+        category = 'zcfb'
+        category_name = webConfig.TOPLABEL1
+    elif article_type == 2:
+        category = 'gsgg'
+        category_name = webConfig.TOPLABEL2
+    elif article_type == 3:
+        category = 'lddt'
+        category_name = webConfig.TOPLABEL3
+    elif article_type == 4:
+        category = 'hydt'
+        category_name = webConfig.TOPLABEL4
+    elif article_type == 5:
+        category = 'dfdt'
+        category_name = webConfig.TOPLABEL5
+    elif article_type == 0:
+        category = 'qtwz'
+        category_name = webConfig.TOPLABEL6
+    else:
+        category = 'index'
+        category_name = webConfig.TOPLABEL0
 
 
-    return render_to_response("index.html",
+    title = article.title
+    content = []
+    for temp in article.content.strip().split('\n'):
+        temp = temp.strip()
+        print temp.decode('utf-8')
+        if temp.decode('utf-8') == '':
+            continue
+        content.append(temp)
+
+
+    return render_to_response("article.html",
                               {
                                   "title": title,
                                   'article': article,
@@ -115,12 +156,11 @@ def article_info_view(request, id):
                                   'toplabel4': webConfig.TOPLABEL4,
                                   'toplabel5': webConfig.TOPLABEL5,
                                   'toplabel6': webConfig.TOPLABEL6,
-                                  'page_total': page_totle,
                                   'previous_id': previous_id,
                                   'next_id': next_id,
-                                  'pages': pages,
                                   'category': category,
-                                  'category_name': category_name
+                                  'category_name': category_name,
+                                  'content': content,
 
                               }
                               )
