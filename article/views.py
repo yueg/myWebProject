@@ -4,6 +4,8 @@ from models import articleModel
 from config import webConfig
 from article import article_head
 from article import article_info
+import urllib2
+import json
 
 def article_list_view(request, category = 'index', page = '1'):
     title = '城镇规划展示'
@@ -156,6 +158,117 @@ def article_info_view(request, id):
                                   'category': category,
                                   'category_name': category_name,
                                   'content': content,
+
+                              }
+                              )
+
+def search(request):
+    title = '搜索结果'
+    param = request.GET
+    keys = param.keys()
+    if 'page' not in keys:
+        page = 1
+    else:
+        page = int(param['page'])
+
+    if 'num' not in keys:
+        num = 10
+    else:
+        num = int(param['num'])
+
+    if 'q' not in keys:
+        return render_to_response("search_index.html")
+    else:
+        q = param['q'].encode('utf-8')
+
+    # print q, page, num
+
+    start = str((page - 1) * num)
+    rows  = str(num)
+    q = urllib2.quote(q)
+    uri = "http://127.0.0.1:8983/solr/article_core/select?q=" + q + "&start=" + start + "&rows=" + rows + "&wt=json&indent=true"
+
+    req = urllib2.Request(uri)
+    res = urllib2.urlopen(req).read()
+    res = json.loads(res)
+
+    responseHeader = res['responseHeader']
+    response = res['response']
+    num_found = response['numFound']
+    articles = response['docs']
+
+    # 处理类别
+    for article in articles:
+        if article['type'] == 1:
+            article['category'] = 'zcfb'
+            article['category_name'] = webConfig.TOPLABEL1
+        elif article['type'] == 2:
+            article['category'] = 'gsgg'
+            article['category_name'] = webConfig.TOPLABEL2
+        elif article['type'] == 3:
+            article['category'] = 'lddt'
+            article['category_name'] = webConfig.TOPLABEL3
+        elif article['type'] == 4:
+            article['category'] = 'hydt'
+            article['category_name'] = webConfig.TOPLABEL4
+        elif article['type'] == 5:
+            article['category'] = 'dfdt'
+            article['category_name'] = webConfig.TOPLABEL5
+        elif article['type'] == 0:
+            article['category'] = 'qtwz'
+            article['category_name'] = webConfig.TOPLABEL6
+        else:
+            article['category'] = 'index'
+            article['category_name'] = webConfig.TOPLABEL0
+    print articles
+
+    # 页数导航
+    pages = []
+    page_num = int(num_found) / num + 1
+    temp = page - page % 5
+    if page_num <= 5:
+        for i in range(page_num):
+            pages.append(i)
+    elif page > page_num - page_num % 5:
+        for i in range(page_num - page_num % 5, page_num):
+            pages.append(i + 1 + temp)
+    else:
+        for i in range(5):
+            pages.append(i + 1 + temp)
+
+    #前一页，后一页
+    if page == 1:
+        pre_page = page
+        next_page = page + 1
+    elif page == page_num:
+        pre_page = page - 1
+        next_page = page_num
+    else:
+        pre_page = page - 1
+        next_page = page + 1
+
+
+    return render_to_response("search.html",
+                              {
+                                  "title": title,
+                                  'articles': articles,
+                                  'project_name': webConfig.PROJECTNAME,
+                                  'toplabel0': webConfig.TOPLABEL0,
+                                  'toplabel1': webConfig.TOPLABEL1,
+                                  'toplabel2': webConfig.TOPLABEL2,
+                                  'toplabel3': webConfig.TOPLABEL3,
+                                  'toplabel4': webConfig.TOPLABEL4,
+                                  'toplabel5': webConfig.TOPLABEL5,
+                                  'toplabel6': webConfig.TOPLABEL6,
+                                  'page': page,
+                                  'num': num,
+                                  'query': q,
+                                  'num_found': num_found,
+                                  'responseHeader': responseHeader,
+                                  'page_num': page_num,
+                                  'pages': pages,
+                                  'pre_page': pre_page,
+                                  'next_page': next_page,
 
                               }
                               )

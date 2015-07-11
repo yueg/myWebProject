@@ -58,12 +58,7 @@
             <li><a href="/articles/dfdt">{{ toplabel5 }}</a></li>
             <li><a href="/articles/qtwz">{{ toplabel6 }}</a></li>
           </ul>
-          <div class="container">
-              <form class="navbar-form navbar-right"  style="margin-right: 50px" action="/search">
-                  <input type="text" name="q" class="form-control" placeholder="Search..." style="height: 25px">
-                  <span><button type="submit" class="button button-glow button-border button-rounded button-primary button-tiny" style="margin-top: 4px">Go</button></span>
-              </form>
-          </div>
+
 
         </div>
       </div>
@@ -71,53 +66,23 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">{{ category_name }}</h1>
+        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 main">
+          <h1 align="center">Search</h1>
+          <div class="row">
+            <div class="col-xs-6 col-sm-8 col-sm-offset-1 col-md-8 col-md-offset-3 placeholder">
+              <form class="form " action="/search">
+                <input type="text" name="q" class="form-control input-xxlarge input-lg" placeholder="Search..." style="height: 25px">
+                  <span><button type="submit" class="button button-glow button-border button-rounded button-primary button-tiny" style="margin-bottom: 10px">Go</button></span>
+                </form>
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
+{#              <h4>Label</h4>#}
+{#              <span class="text-muted">Something else</span>#}
             </div>
           </div>
 
-          <h3 class="sub-header" align="center">{{ title }}</h3>
+          <span style="font-size: 14pt;">共&nbsp;<strong style="color:#02A1F0;">{{ num_found }}</strong>&nbsp;匹配的结果</span>
+          <hr/>
+
           <div class="table-responsive">
               {% for c in content %}
                 <p>

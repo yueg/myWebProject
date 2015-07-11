@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from article.views import article_list_view
 from article.views import article_info_view
+from article.views import search
 import settings
 
 urlpatterns = [
@@ -28,4 +29,6 @@ urlpatterns = [
     url(r'^article/(?P<id>.*)/$', article_info_view),
     url(r'^article/(?P<id>.*)$', article_info_view),
     url(r'^static/.*$', 'django.views.static.serve', {'document_root': settings.STATIC_PATH}),
+    url(r'^search/$', search),
+    url(r'^search$', search),
 ]
