@@ -15,7 +15,6 @@ class articleModel():
             sql = "SELECT * FROM " + self.table + " ORDER BY UNIX_TIMESTAMP(article_time) DESC LIMIT " + str((page - 1) * num) + ", " + str(num)
         else:
             sql = "SELECT * FROM " + self.table + " WHERE article_type = '" + str(article_type) + "' ORDER BY UNIX_TIMESTAMP(article_time) DESC LIMIT " + str((page - 1) * num) + ", " + str(num)
-        print sql
         try:
             ret = self.db.find(sql)
         except:

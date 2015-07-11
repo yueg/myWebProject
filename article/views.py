@@ -6,8 +6,6 @@ from article import article_head
 from article import article_info
 
 def article_list_view(request, category = 'index', page = '1'):
-    print category
-    print page
     title = '城镇规划展示'
     article_instance = articleModel()
     if not page:
@@ -138,12 +136,9 @@ def article_info_view(request, id):
     content = []
     for temp in article.content.strip().split('\n'):
         temp = temp.strip()
-        print temp.decode('utf-8')
         if temp.decode('utf-8') == '':
             continue
         content.append(temp)
-
-
     return render_to_response("article.html",
                               {
                                   "title": title,

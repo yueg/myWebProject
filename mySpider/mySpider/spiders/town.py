@@ -73,7 +73,7 @@ class TownSpider(scrapy.Spider):
                             for small_temp in temp.contents:
                                 if small_temp.string == None:
                                     continue
-                                elif small_temp.name == 'style':
+                                elif hasattr(small_temp, 'name') and small_temp.name == 'style':
                                     continue
                                 else:
                                     article_content += small_temp.string.strip() + '\n'

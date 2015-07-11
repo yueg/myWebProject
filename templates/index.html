@@ -18,11 +18,12 @@
     <link href="/static/css/dashboard.css" rel="stylesheet" type="text/css">
 
     <link href="/static/css/bootstrap-combined.min.css" rel="stylesheet" type="text/css">
-
+    <link href="/static/css/buttons.css" rel="stylesheet" type="text/css">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="/static/js/ie-emulation-modes-warning.js"></script>
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -45,7 +46,7 @@
           <a class="navbar-brand" href="/articles/index">{{ project_name }}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right" style="margin-top: 5px">
             <li><a href="/articles/index">{{ toplabel0 }}</a></li>
             <li><a href="/articles/zcfb">{{ toplabel1 }}</a></li>
             <li><a href="/articles/gsgg">{{ toplabel2 }}</a></li>
@@ -54,9 +55,13 @@
             <li><a href="/articles/dfdt">{{ toplabel5 }}</a></li>
             <li><a href="/articles/qtwz">{{ toplabel6 }}</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
+          <div class="container">
+              <form class="navbar-form navbar-right"  style="margin-right: 50px">
+                  <input type="text" class="form-control" placeholder="Search..." style="height: 25px">
+                  <span><button type="submit" class="button button-glow button-border button-rounded button-primary button-tiny" style="margin-top: 4px">Go</button></span>
+              </form>
+          </div>
+
         </div>
       </div>
     </nav>
@@ -84,32 +89,9 @@
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">{{ category_name }}</h1>
+{#          <h1 class="page-header">{{ category_name }}</h1>#}
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4>Label</h4>
-              <span class="text-muted">Something else</span>
-            </div>
-          </div>
-
-          <h2 class="sub-header">Section title</h2>
+          <h2 class="sub-header">{{ category_name }}</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -136,19 +118,41 @@
               </tbody>
             </table>
           </div>
-                <div class="view" align="center">
-                    <ul class="pagination">
-                        <li><span>第{{ page }}页</span></li>
-                        <li><a href="/articles/{{ category }}">首页</a></li>
-                        <li><a href="/articles/{{ category }}/{{ previous_page }}">«</a></li>
-                        {% for p in pages %}
-                            <li><a href="/articles/{{ category }}/{{ p }}">{{ p }}</a></li>
-                        {% endfor %}
-                        <li><a href="/articles/{{ category }}/{{ next_page }}">»</a></li>
-                        <li><a href="/articles/{{ category }}/{{ page_total }}">尾页</a></li>
-                        <li><span>共{{ page_total }}页</span></li>
-                    </ul>
-                </div>
+          <div class="view" align="center">
+            <ul class="pagination">
+              <li><span>第{{ page }}页</span></li>
+              <li><a href="/articles/{{ category }}">首页</a></li>
+              <li><a href="/articles/{{ category }}/{{ previous_page }}">«</a></li>
+              {% for p in pages %}
+              <li><a href="/articles/{{ category }}/{{ p }}">{{ p }}</a></li>
+              {% endfor %}
+              <li><a href="/articles/{{ category }}/{{ next_page }}">»</a></li>
+              <li><a href="/articles/{{ category }}/{{ page_total }}">尾页</a></li>
+              <li><span>共{{ page_total }}页</span></li>
+            </ul>
+          </div>
+{#          <div class="row placeholders">#}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">#}
+{#              <h4>Label</h4>#}
+{#              <span class="text-muted">Something else</span>#}
+{#            </div>#}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">#}
+{#              <h4>Label</h4>#}
+{#              <span class="text-muted">Something else</span>#}
+{#            </div>#}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#              <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">#}
+{#              <h4>Label</h4>#}
+{#              <span class="text-muted">Something else</span>#}
+{#            </div>#}
+{#            <div class="col-xs-6 col-sm-3 placeholder">#}
+{#              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">#}
+{#              <h4>Label</h4>#}
+{#              <span class="text-muted">Something else</span>#}
+{#            </div>#}
+          </div>
         </div>
       </div>
     </div>

@@ -14,3 +14,4 @@ class Singleton(object):
 class mysqlConn(Singleton):
     def __init__(self, dbName):
         self.conn = db.connect(host="localhost", user="root", passwd="123456", db=dbName)
+        self.conn.query("set names utf8")
