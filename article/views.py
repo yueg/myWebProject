@@ -165,6 +165,7 @@ def article_info_view(request, id):
 def search(request):
     title = '搜索结果'
     param = request.GET
+    print param
     keys = param.keys()
     if 'page' not in keys:
         page = 1
@@ -196,6 +197,9 @@ def search(request):
     response = res['response']
     num_found = response['numFound']
     articles = response['docs']
+    if num_found > 250:
+        num_found = 250;
+        articles = articles[:250]
 
     # 处理类别
     for article in articles:
@@ -220,7 +224,12 @@ def search(request):
         else:
             article['category'] = 'index'
             article['category_name'] = webConfig.TOPLABEL0
-    print articles
+
+        if len(article['content']) > 200:
+            article['desc'] = article['content'][:200] + "......"
+        else:
+            article['desc'] = article['content']
+    # print articles
 
     # 页数导航
     pages = []
@@ -231,7 +240,7 @@ def search(request):
             pages.append(i)
     elif page > page_num - page_num % 5:
         for i in range(page_num - page_num % 5, page_num):
-            pages.append(i + 1 + temp)
+            pages.append(i + 1)
     else:
         for i in range(5):
             pages.append(i + 1 + temp)
@@ -246,7 +255,6 @@ def search(request):
     else:
         pre_page = page - 1
         next_page = page + 1
-
 
     return render_to_response("search.html",
                               {

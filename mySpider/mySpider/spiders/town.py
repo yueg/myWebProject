@@ -15,10 +15,10 @@ class TownSpider(scrapy.Spider):
     name = "town"
     allowed_domains = ["mohurd.gov.cn"]
     start_urls = [
-        "http://www.mohurd.gov.cn/cxgh/zcfb/index.html",
-        "http://www.mohurd.gov.cn/cxgh/hydt/index.html",
-        "http://www.mohurd.gov.cn/cxgh/cxghdfxx/index.html",
-        # "http://www.mohurd.gov.cn/wjfb/200903/t20090313_187178.html"
+        # "http://www.mohurd.gov.cn/cxgh/zcfb/index.html",
+        # "http://www.mohurd.gov.cn/cxgh/hydt/index.html",
+        # "http://www.mohurd.gov.cn/cxgh/cxghdfxx/index.html",
+        "http://www.mohurd.gov.cn/wjfb/200903/t20090313_187178.html"
     ]
 
     def parse(self, response):
@@ -107,7 +107,9 @@ class TownSpider(scrapy.Spider):
             else:
                 article_type = 0
             if title:
+                title = title.split('-')[-1].strip()
                 title = title.encode('utf-8')
+                print title
             if article_content:
                 article_content = article_content.encode('utf-8')
             if url_time:

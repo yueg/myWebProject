@@ -114,6 +114,6 @@ STATIC_ROOT = STATIC_PATH
 STATICFILES_DIRS = (
     ("css", os.path.join(STATIC_PATH, 'css')),
     ("js", os.path.join(STATIC_PATH, 'js')),
-    ("images", os.path.join(STATIC_PATH, 'img')),
+    ("img", os.path.join(STATIC_PATH, 'img')),
 )
 

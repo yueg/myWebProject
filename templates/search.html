@@ -31,8 +31,11 @@
     <![endif]-->
 
     <style>
-        p{text-indent:2em;}
+        a:hover{color: #00AEEF; text-decoration: none;}
+        .addr{color: #959595;font-size: 12px;}
+        .addr:hover{color: #00AEEF; text-decoration: none;font-size: 12px;}
     </style>
+
   </head>
 
   <body>
@@ -69,7 +72,7 @@
         <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 main">
           <h1 align="center">Search</h1>
           <div class="row">
-            <div class="col-xs-6 col-sm-8 col-sm-offset-1 col-md-8 col-md-offset-3 placeholder">
+            <div class="placeholder" align="center">
               <form class="form " action="/search">
                 <input type="text" name="q" class="form-control input-xxlarge input-lg" placeholder="Search..." style="height: 25px">
                   <span><button type="submit" class="button button-glow button-border button-rounded button-primary button-tiny" style="margin-bottom: 10px">Go</button></span>
@@ -83,17 +86,32 @@
           <span style="font-size: 14pt;">共&nbsp;<strong style="color:#02A1F0;">{{ num_found }}</strong>&nbsp;匹配的结果</span>
           <hr/>
 
-          <div class="table-responsive">
-              {% for c in content %}
-                <p>
-                    {{ c }}
-                </p>
+          <div>
+              {% for a in articles %}
+                    <div style="width: 100%; height:120px;  margin: 1em 0 2.5em 0; overflow: hidden;">
+                        <div style="float: left; display: inline; width: 10%; height: 100%; margin: 20px 0 0 10px;">
+                            <img ng-src="/static/img/default.png" src="/static/img/default.png" style="vertical-align: middle;">
+                        </div>
+                        <div style="display:inline; width: 90%; overflow: hidden;" >
+                            <h4 style="font-size: 17px"><a href="/article/{{ a.id }}">{{ a.title }}</a></h4>
+                            <span><strong>原文地址：</strong> </span><a href="{{ a.url }}" class="addr" >{{ a.url }}</a>
+                            <span style="float:right"><strong>文章类别：</strong>{{ a.position }}</span>
+                            <p>{{ a.desc }}</p>
+                        </div>
+                    </div>
               {% endfor %}
           </div>
                 <div class="view" align="center">
-                    <ul class="pager">
-                        <li><a href="/article/{{ previous_id }}">Previous</a></li>
-                        <li><a href="/article/{{ next_id }}">Next</a></li>
+                    <ul class="pagination">
+                      <li><span>第{{ page }}页</span></li>
+                      <li><a href="/search?q={{ query }}">首页</a></li>
+                      <li><a href="/search?q={{ query }}&page={{ pre_page }}">«</a></li>
+                      {% for p in pages %}
+                      <li><a href="/search?q={{ query }}&page={{ p }}">{{ p }}</a></li>
+                      {% endfor %}
+                      <li><a href="/search?q={{ query }}&page={{ next_page }}">»</a></li>
+                      <li><a href="/search?q={{ query }}&page={{ page_num }}">尾页</a></li>
+                      <li><span>共{{ page_num }}页</span></li>
                     </ul>
                 </div>
         </div>
