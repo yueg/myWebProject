@@ -9,16 +9,20 @@ from bs4 import BeautifulSoup as bsp
 from mySpider.items import TownspiderItem
 import db.conn as dbConn
 import controller.articleOperation as articleOperation
+import re
+import urllib
 
 class TownSpider(scrapy.Spider):
     artiOper = articleOperation.articleOper()
     name = "town"
     allowed_domains = ["mohurd.gov.cn"]
     start_urls = [
-        # "http://www.mohurd.gov.cn/cxgh/zcfb/index.html",
-        # "http://www.mohurd.gov.cn/cxgh/hydt/index.html",
-        # "http://www.mohurd.gov.cn/cxgh/cxghdfxx/index.html",
-        "http://www.mohurd.gov.cn/wjfb/200903/t20090313_187178.html"
+        "http://www.mohurd.gov.cn/cxgh/zcfb/index.html",
+        "http://www.mohurd.gov.cn/cxgh/hydt/index.html",
+        "http://www.mohurd.gov.cn/cxgh/cxghdfxx/index.html",
+        # "http://www.mohurd.gov.cn/wjfb/200903/t20090313_187178.html",
+        # 'http://www.mohurd.gov.cn/wjfb/201408/t20140807_218658.html',
+        # 'http://www.mohurd.gov.cn/wjfb/200805/t20080520_168990.html',
     ]
 
     def parse(self, response):
@@ -109,7 +113,7 @@ class TownSpider(scrapy.Spider):
             if title:
                 title = title.split('-')[-1].strip()
                 title = title.encode('utf-8')
-                print title
+
             if article_content:
                 article_content = article_content.encode('utf-8')
             if url_time:
@@ -121,6 +125,30 @@ class TownSpider(scrapy.Spider):
             except:
                 print title, pos1, pos2, pos3, article_content, url_time, url
 
+            #爬取文档
+            for a in sel.xpath('//tr/td/a'):
+                link = a.xpath('.//@href').extract()[0]
+                m = re.match(r"/wjfb/.*\.doc.*$", link)
+                if m != None:
+                    text = a.xpath(".//text()").extract()[0]
+                    link = "http://www.mohurd.gov.cn" + link
+                    doc_name = link.split('/')[-1]
+                    doc_dir = "/static/doc/"
+                    urllib.urlretrieve(link, "../static/doc/" + doc_name)
+                    # print link
+                    # print text
+                    # print title
+                    article_id = self.artiOper.getArticleIdFromTitle(title)
+                    # print article_id
+
+                    try:
+                        self.artiOper.saveDocToDB(article_id = article_id, doc_name = doc_name, doc_dir = doc_dir, doc_desc = text, doc_url = link)
+                    except:
+                        print article_id, doc_name, link, "INSERT INTO ERROR!"
+
+
+
+
         if len(pos_list) == 2:
             for link in sel.xpath('//span/a/@href').extract():
                 request = scrapy.Request(link, callback=self.parse)
@@ -131,6 +159,17 @@ class TownSpider(scrapy.Spider):
                     continue
                 article_request = scrapy.Request(article_link, callback=self.parse)
                 yield article_request
+
+
+
+
+
+
+
+
+
+
+
 
         #for link in sel.xpath()
 

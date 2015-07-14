@@ -7,6 +7,7 @@ import time
 
 dbName = "VillageConstruction"
 table = 'article'
+doc_table = "document"
 class articleOper():
     def __init__(self):
         self.conn = dbConn.mysqlConn(dbName).conn
@@ -32,6 +33,16 @@ class articleOper():
         except:
             return False
 
+    def saveDocToDB(self, article_id = '', doc_name = '', doc_dir = '', doc_desc = '', doc_url = ''):
+        indexList = ['article_id', 'doc_name', 'doc_dir', 'doc_desc', 'doc_url']
+        valueList = [article_id, doc_name, doc_dir, doc_desc, doc_url]
+        for i in range(len(valueList)):
+            valueList[i] = valueList[i].encode('utf-8')
+        try:
+            return self.db.insertList(doc_table, indexList, valueList)
+        except:
+            return False
+
     def isArticleExists(self, title):
         articleInfo = self.getArticleInfoFromTitle(title)
         if not articleInfo:
@@ -42,3 +53,7 @@ class articleOper():
     def getArticleInfoFromTitle(self, title):
         articleInfo = self.db.findEx(table, 'title', title)
         return articleInfo
+
+    def getArticleIdFromTitle(self, title):
+        articleId = self.getArticleInfoFromTitle(title)[0][0]
+        return articleId
