@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from webDB import conn
 from webDB import operatiron
@@ -54,4 +55,25 @@ class articleModel():
             return self.db.find(sql)[0][0]
         except:
             return 0
+
+class documentModel():
+    db = operatiron.dbOperation()
+    table = 'document'
+
+    def getDocumentList(self, page = 1, num = 20):
+        ret = []
+        sql = "SELECT * FROM " + self.table + " ORDER BY UNIX_TIMESTAMP(doc_time) DESC LIMIT " + str((page - 1) * num) + ", " + str(num)
+        try:
+            ret = self.db.find(sql)
+            return ret
+        except:
+            return False
+
+    def getDocumentNum(self):
+        sql = "SELECT COUNT(*) FROM " + self.table
+        try:
+            return int(self.db.find(sql)[0][0])
+        except:
+            return 0
+
 

@@ -70,8 +70,8 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="/articles">Articles <span class="sr-only">(current)</span></a></li>
-            <li><a href="/documents">Documents</a></li>
+            <li><a href="/articles">Articles</a></li>
+            <li class="active"><a href="/documents">Documents<span class="sr-only">(current)</span></a></li>
 {#            <li><a href="#">Analytics</a></li>#}
 {#            <li><a href="#">Export</a></li>#}
           </ul>
@@ -96,22 +96,20 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th width="40%">标题</th>
-                  <th>类别</th>
-                  <th>栏目</th>
-                  <th>时间</th>
-                  <th>原文链接</th>
+                  <th width="30%">文档名称</th>
+                  <th>文档时间</th>
+                  <th>文档下载</th>
+                  <th width="40%">所属文章</th>
                 </tr>
               </thead>
               <tbody>
-                {% for article in articles %}
+                {% for doc in docs %}
                 <tr>
-                    <td><a href="/article/{{ article.id }}">{{ article.title }}</a></td>
-                    <td>城镇规划</td>
-                    <td>{{ article.pos }}</td>
-                    <td>{{ article.article_time }}</td>
+                    <td>{{ doc.doc_desc }}</td>
+                    <td>{{ doc.doc_time }}</td>
+                    <td><a href="{{ doc.link }}">点击下载</a></td>
                     <td>
-                        <a href="{{ article.url }}">查看原文</a>
+                        <a href="/article/{{ doc.article_id }}">{{ doc.article.title }}</a>
                     </td>
                 </tr>
               {%  endfor %}
@@ -121,13 +119,13 @@
           <div class="view" align="center">
             <ul class="pagination">
               <li><span>第{{ page }}页</span></li>
-              <li><a href="/articles/{{ category }}">首页</a></li>
-              <li><a href="/articles/{{ category }}/{{ previous_page }}">«</a></li>
+              <li><a href="/documents">首页</a></li>
+              <li><a href="/documents/{{ previous_page }}">«</a></li>
               {% for p in pages %}
-              <li><a href="/articles/{{ category }}/{{ p }}">{{ p }}</a></li>
+              <li><a href="/documents/{{ p }}">{{ p }}</a></li>
               {% endfor %}
-              <li><a href="/articles/{{ category }}/{{ next_page }}">»</a></li>
-              <li><a href="/articles/{{ category }}/{{ page_total }}">尾页</a></li>
+              <li><a href="/documents/{{ next_page }}">»</a></li>
+              <li><a href="/documents/{{ page_total }}">尾页</a></li>
               <li><span>共{{ page_total }}页</span></li>
             </ul>
           </div>

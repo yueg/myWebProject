@@ -6,6 +6,8 @@ from article import article_head
 from article import article_info
 import urllib2
 import json
+from models import documentModel
+from document import document
 
 def article_list_view(request, category = 'index', page = '1'):
     title = '城镇规划展示'
@@ -42,33 +44,33 @@ def article_list_view(request, category = 'index', page = '1'):
     articlesForHtml = []
     for temp in articles:
         article_head_temp = article_head(temp)
-        # print article_head_temp.title
         articlesForHtml.append(article_head_temp)
 
     article_num = article_instance.getArticleNum(article_type)
-    page_totle = article_num / webConfig.PAGENUM + 1
+    page_total = article_num / webConfig.PAGENUM + 1
 
     if page == '1':
         previous_page = '1'
     else:
         previous_page = str(int(page) - 1)
 
-    if page == str(page_totle):
-        next_page = str(page_totle)
+    if page == str(page_total):
+        next_page = str(page_total)
     else:
         next_page = str(int(page) + 1)
 
-    ye = (int(page) - 1) / 5
+    page = int(page)
     pages = []
-    for i in range(5):
-        pages.append(ye * 5 + i + 1)
-    if int(page) > (int(page_totle) - int(page_totle) % 5):
-        pages = []
-        pages.append(int(page_totle) - 4)
-        pages.append(int(page_totle) - 3)
-        pages.append(int(page_totle) - 2)
-        pages.append(int(page_totle) - 1)
-        pages.append(int(page_totle))
+    temp = page - page % 5
+    if page_total <= 5:
+        for i in range(page_total):
+            pages.append(i + 1)
+    elif page > page_total - page_total % 5:
+        for i in range(page_total - page_total % 5, page_total):
+            pages.append(i + 1)
+    else:
+        for i in range(5):
+            pages.append(i + 1 + temp)
 
     return render_to_response("index.html",
                               {
@@ -82,7 +84,7 @@ def article_list_view(request, category = 'index', page = '1'):
                                   'toplabel4': webConfig.TOPLABEL4,
                                   'toplabel5': webConfig.TOPLABEL5,
                                   'toplabel6': webConfig.TOPLABEL6,
-                                  'page_total': page_totle,
+                                  'page_total': page_total,
                                   'page': page,
                                   'previous_page': previous_page,
                                   'next_page': next_page,
@@ -233,11 +235,11 @@ def search(request):
 
     # 页数导航
     pages = []
-    page_num = int(num_found) / num + 1
+    page_num = (int(num_found) - 1) / num + 1
     temp = page - page % 5
     if page_num <= 5:
         for i in range(page_num):
-            pages.append(i)
+            pages.append(i + 1)
     elif page > page_num - page_num % 5:
         for i in range(page_num - page_num % 5, page_num):
             pages.append(i + 1)
@@ -277,6 +279,65 @@ def search(request):
                                   'pages': pages,
                                   'pre_page': pre_page,
                                   'next_page': next_page,
+
+                              }
+                              )
+
+def document_list_view(request, page = '1'):
+    title = "文档列表"
+    page = int(page)
+    num = 20
+    document_instance = documentModel()
+    doccuments = document_instance.getDocumentList(page, num)
+    docs = []
+    for i in range(len(doccuments)):
+        docs.append(document(doccuments[i]))
+    doc_total = document_instance.getDocumentNum()
+    page_total = (doc_total - 1) / num + 1
+
+    if page == 1:
+        previous_page = page
+    else:
+        previous_page = page - 1
+
+    if page == page_total:
+        next_page = page
+    else:
+        next_page = page_total + 1
+
+    pages = []
+    temp = page - page % 5
+    if page_total <= 5:
+        for i in range(page_total):
+            pages.append(i + 1)
+    elif page > page_total - page_total % 5:
+        for i in range(page_total - page_total % 5, page_total):
+            pages.append(i + 1)
+    else:
+        for i in range(5):
+            pages.append(i + 1 + temp)
+
+
+
+    return render_to_response("document.html",
+                              {
+                                  "title": title,
+                                  'docs': docs,
+                                  'project_name': webConfig.PROJECTNAME,
+                                  'toplabel0': webConfig.TOPLABEL0,
+                                  'toplabel1': webConfig.TOPLABEL1,
+                                  'toplabel2': webConfig.TOPLABEL2,
+                                  'toplabel3': webConfig.TOPLABEL3,
+                                  'toplabel4': webConfig.TOPLABEL4,
+                                  'toplabel5': webConfig.TOPLABEL5,
+                                  'toplabel6': webConfig.TOPLABEL6,
+                                  'page_total': page_total,
+                                  'page': page,
+                                  'previous_page': previous_page,
+                                  'next_page': next_page,
+                                  'pages': pages,
+                                  # 'category': category,
+                                  # 'category_name': category_name
 
                               }
                               )

@@ -11,6 +11,7 @@ import db.conn as dbConn
 import controller.articleOperation as articleOperation
 import re
 import urllib
+import time
 
 class TownSpider(scrapy.Spider):
     artiOper = articleOperation.articleOper()
@@ -135,19 +136,13 @@ class TownSpider(scrapy.Spider):
                     doc_name = link.split('/')[-1]
                     doc_dir = "/static/doc/"
                     urllib.urlretrieve(link, "../static/doc/" + doc_name)
-                    # print link
-                    # print text
-                    # print title
                     article_id = self.artiOper.getArticleIdFromTitle(title)
-                    # print article_id
+                    update_time = time.strftime('%Y-%m-%d %X', time.localtime())
 
                     try:
-                        self.artiOper.saveDocToDB(article_id = article_id, doc_name = doc_name, doc_dir = doc_dir, doc_desc = text, doc_url = link)
+                        self.artiOper.saveDocToDB(article_id = article_id, doc_name = doc_name, doc_dir = doc_dir, doc_desc = text, doc_url = link, doc_time = url_time, update_time = update_time)
                     except:
                         print article_id, doc_name, link, "INSERT INTO ERROR!"
-
-
-
 
         if len(pos_list) == 2:
             for link in sel.xpath('//span/a/@href').extract():
@@ -159,17 +154,6 @@ class TownSpider(scrapy.Spider):
                     continue
                 article_request = scrapy.Request(article_link, callback=self.parse)
                 yield article_request
-
-
-
-
-
-
-
-
-
-
-
 
         #for link in sel.xpath()
 

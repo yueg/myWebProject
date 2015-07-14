@@ -33,9 +33,9 @@ class articleOper():
         except:
             return False
 
-    def saveDocToDB(self, article_id = '', doc_name = '', doc_dir = '', doc_desc = '', doc_url = ''):
-        indexList = ['article_id', 'doc_name', 'doc_dir', 'doc_desc', 'doc_url']
-        valueList = [article_id, doc_name, doc_dir, doc_desc, doc_url]
+    def saveDocToDB(self, article_id = '', doc_name = '', doc_dir = '', doc_desc = '', doc_url = '', doc_time = '', update_time = ''):
+        indexList = ['article_id', 'doc_name', 'doc_dir', 'doc_desc', 'doc_url', 'doc_time', 'update_time']
+        valueList = [article_id, doc_name, doc_dir, doc_desc, doc_url, doc_time, update_time]
         for i in range(len(valueList)):
             valueList[i] = valueList[i].encode('utf-8')
         try:

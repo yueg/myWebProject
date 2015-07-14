@@ -19,6 +19,7 @@ from article.views import article_list_view
 from article.views import article_info_view
 from article.views import search
 import settings
+from article.views import document_list_view
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -31,4 +32,8 @@ urlpatterns = [
     url(r'^static/.*$', 'django.views.static.serve', {'document_root': settings.STATIC_PATH}),
     url(r'^search/$', search),
     url(r'^search$', search),
+    url(r'^documents/(?P<page>.*)/$', document_list_view),
+    url(r'^documents/(?P<page>.*)$', document_list_view),
+    url(r'^documents/$', document_list_view),
+    url(r'^documents$', document_list_view),
 ]
